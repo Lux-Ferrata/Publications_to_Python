@@ -20,34 +20,6 @@
         pkgs = nixpkgs.legacyPackages.${system};
         python = pkgs.python314;
 
-        mcpyrate = python.pkgs.buildPythonPackage rec {
-          pname = "mcpyrate";
-          version = "4.2.0";
-          pyproject = true;
-          src = python.pkgs.fetchPypi {
-            inherit pname version;
-            sha256 = "b6b7f3efb205e34aa77ac26715c380882d371ed123b0a508447534f451a3d558";
-          };
-          build-system = [ python.pkgs.pdm-backend ];
-          dependencies = [ python.pkgs.colorama ];
-          pythonImportsCheck = [ "mcpyrate" ];
-          doCheck = false;
-        };
-
-        tnTikz = python.pkgs.toPythonModule (
-          pkgs.runCommand "tn-tikz" { } ''
-            install -Dm644 ${./flake_utils/tn_tikz.py} $out/${python.sitePackages}/tn_tikz.py
-          ''
-        );
-        tex = pkgs.texliveBasic.withPackages (
-          ps: with ps; [
-            standalone
-            pgf
-            tikz-cd
-            amsfonts
-          ]
-        );
-
         pythonEnv = python.withPackages (
           ps: with ps; [
             # Jupyter
@@ -81,8 +53,6 @@
 
             # other tools
             bash-kernel
-            mcpyrate
-            tnTikz
           ]
         );
 
@@ -97,7 +67,6 @@
                 "${pythonEnv}/bin/python"
                 "-m"
                 "ipykernel_launcher"
-                "--ext=tn_tikz"
                 "-f"
                 "{connection_file}"
               ];
@@ -122,8 +91,6 @@
             pythonEnv
             pkgs.pyrefly
             pkgs.git
-            tex
-            pkgs.pdf2svg
           ];
           JUPYTER_PATH = "${kernels}";
         };
