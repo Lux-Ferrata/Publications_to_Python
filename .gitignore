@@ -1,0 +1,42 @@
+# Claude Code guidance: local only, kept in sync by Syncthing (describes the home setup)
+/CLAUDE.md
+
+# Nix / direnv
+/.direnv/
+result
+result-*
+
+# Python bytecode, builds and virtualenvs
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+
+# Tool caches
+.pytest_cache/
+.hypothesis/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Manim writes media/ into the directory it runs in
+media/
+
+# LaTeX leftovers (%%tikz and any hand-run pdflatex)
+*.aux
+*.log
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+
+# Editors / OS
+.DS_Store
+*.swp
+*~
